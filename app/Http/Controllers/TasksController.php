@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Task;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +17,9 @@ class TasksController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Task::orderBy('id', 'desc')->get();
+
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
@@ -26,7 +29,7 @@ class TasksController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks.create');
     }
 
     /**
@@ -37,18 +40,24 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $this->validate($request, [
+            'name' => 'required|max:255',
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        // 방법 1
+        $task = new Task;
+        $task->name = $request->name;
+        $task->save();
+
+        // 방법 2
+        // Task 모델에 fillable 속성에 name을 지정해 줘야 한다.
+        /*
+        Task::create([
+            'name' => $request->name,
+        ]);
+        */
+
+        return redirect('/tasks');
     }
 
     /**
@@ -59,7 +68,9 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-        //
+        $task = Task::findOrFail($id);
+
+        return view('tasks.edit', compact('task'));
     }
 
     /**
@@ -71,7 +82,25 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:255',
+        ]);
+
+        // 방법 1
+        $task = Task::findOrFail($id);
+        $task->name = $request->name;
+        $task->save();
+
+        // 방법 2
+        // Task 모델에 fillable 속성에 name을 지정해 줘야 한다.
+        /*
+        $task = Task::findOrFail($id);
+        $task->update([
+            'name' => $request->name,
+        ]);
+        */
+
+        return redirect('/tasks');
     }
 
     /**
@@ -82,6 +111,8 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Task::destroy($id);
+
+        return redirect('/tasks');
     }
 }
