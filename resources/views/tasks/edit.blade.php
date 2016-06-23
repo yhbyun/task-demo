@@ -13,9 +13,7 @@
                     @include('partials.errors')
 
                     <!-- New Task Form -->
-                    <form action="{{ route('tasks.update', $task->id) }}" method="POST" class="form-horizontal">
-                        {{ csrf_field() }}
-                        {{ method_field('PUT') }}
+                    {!! Form::open(['route' => ['tasks.update', $task->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
 
                         <!-- Task Name -->
                         <div class="form-group">
@@ -34,7 +32,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

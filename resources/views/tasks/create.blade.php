@@ -13,8 +13,7 @@
                     @include('partials.errors')
 
                     <!-- New Task Form -->
-                    <form action="{{ route('tasks.store')}}" method="POST" class="form-horizontal">
-                        {{ csrf_field() }}
+                    {!! Form::open(['route' => 'tasks.store', 'class' => 'form-horizontal']) !!}
 
                         <!-- Task Name -->
                         <div class="form-group">
@@ -33,7 +32,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

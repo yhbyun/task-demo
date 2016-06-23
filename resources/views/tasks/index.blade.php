@@ -48,14 +48,11 @@
                                                 </button>
                                             </a>
                                         </div>
-                                        <form action="{{ route('tasks.delete', $task->id) }}" method="POST" class="pull-left">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-
+                                        {!! Form::open(['route' => ['tasks.delete', $task->id], 'method' => 'DELETE', 'class' => 'pull-left']) !!}
                                             <button type="submit" class="btn btn-danger">
                                                 <i class="fa fa-btn fa-trash"></i>Delete
                                             </button>
-                                        </form>
+                                        {!! Form::close() !!}
                                     </td>
                                 </tr>
                             @endforeach
